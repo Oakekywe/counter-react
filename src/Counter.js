@@ -13,6 +13,7 @@ const Counter = () => {
     if (count < targetCount || targetCount === 0) {
       setCount((prevCount) => {
         playSound(buttonClickAudioRef.current);
+        vibrate();
         return prevCount + 1;
       });
     }
@@ -22,6 +23,7 @@ const Counter = () => {
     if (count > 0) {
       setCount((prevCount) => {
         playSound(buttonClickAudioRef.current);
+        vibrate();
         return prevCount - 1;
       });
     }
@@ -44,6 +46,12 @@ const Counter = () => {
   const playSound = (audioElement) => {
     audioElement.currentTime = 0;
     audioElement.play();
+  };
+
+  const vibrate = () => {
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
   };
 
   // Check if the count matches the target count
