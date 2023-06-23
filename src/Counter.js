@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import buttonClickSound from "./sound/button-click.mp3";
+import completionSound from "./sound/completion-sound.mp3";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
   const [targetCount, setTargetCount] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const buttonClickAudioRef = useRef(null);
+  const completionAudioRef = useRef(null);
 
   const handleIncrement = () => {
     if (count < targetCount || targetCount === 0) {
-      setCount(count + 1);
+      setCount((prevCount) => {
+        playSound(buttonClickAudioRef.current);
+        return prevCount + 1;
+      });
     }
   };
 
   const handleDecrement = () => {
     if (count > 0) {
-      setCount(count - 1);
+      setCount((prevCount) => {
+        playSound(buttonClickAudioRef.current);
+        return prevCount - 1;
+      });
     }
   };
 
@@ -31,9 +41,15 @@ const Counter = () => {
     }
   };
 
+  const playSound = (audioElement) => {
+    audioElement.currentTime = 0;
+    audioElement.play();
+  };
+
   // Check if the count matches the target count
   if (count === targetCount && targetCount !== 0 && !isComplete) {
     setIsComplete(true);
+    playSound(completionAudioRef.current);
   }
 
   return (
@@ -74,6 +90,8 @@ const Counter = () => {
           Reset
         </button>
       </div>
+      <audio ref={buttonClickAudioRef} src={buttonClickSound} />
+      <audio ref={completionAudioRef} src={completionSound} />
     </div>
   );
 };
