@@ -44,22 +44,22 @@ const Counter = () => {
           Completed! <button onClick={handleReset}>Start new</button>
         </div>
       )}
-      <div className="flex items-center mb-4">
+      <div className="flex items-center my-4">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-4 px-6 rounded"
           onClick={handleDecrement}
         >
           -
         </button>
-        <span className="mx-4 text-xl font-bold">{count}</span>
+        <span className="mx-6 text-xl font-bold">{count}</span>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded"
           onClick={handleIncrement}
         >
           +
         </button>
       </div>
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start mt-5">
         <input
           type="number"
           className="border border-gray-400 rounded py-2 px-4 mb-4"
