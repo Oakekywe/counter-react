@@ -6,7 +6,7 @@ const Counter = () => {
   const [isComplete, setIsComplete] = useState(false);
 
   const handleIncrement = () => {
-    if (count < targetCount) {
+    if (count < targetCount || targetCount === 0) {
       setCount(count + 1);
     }
   };
@@ -19,14 +19,16 @@ const Counter = () => {
 
   const handleReset = () => {
     setCount(0);
+    setTargetCount(0);
     setIsComplete(false);
   };
 
   const handleSetTargetCount = (e) => {
     const value = parseInt(e.target.value);
-    console.log("tesing : ", e.target.value);
-    setTargetCount(value);
-    setIsComplete(false);
+    if (!isNaN(value)) {
+      setTargetCount(value);
+      setIsComplete(false);
+    }
   };
 
   // Check if the count matches the target count
@@ -35,8 +37,8 @@ const Counter = () => {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Counter App</h1>
+    <div className="flex flex-col items-center p-4">
+      <h1 className="text-2xl font-bold mt-4 mb-8">Counter App</h1>
       {isComplete && (
         <div className="bg-green-200 text-green-800 p-4 my-3 rounded">
           Completed! <button onClick={handleReset}>Start new</button>
@@ -57,10 +59,10 @@ const Counter = () => {
           +
         </button>
       </div>
-      <div className="flex items-center mb-4">
+      <div className="flex flex-col items-start">
         <input
           type="number"
-          className="border border-gray-400 rounded py-2 px-4 mr-4"
+          className="border border-gray-400 rounded py-2 px-4 mb-4"
           placeholder="Set target count"
           onChange={handleSetTargetCount}
           value={targetCount}
@@ -72,7 +74,6 @@ const Counter = () => {
           Reset
         </button>
       </div>
-      
     </div>
   );
 };
