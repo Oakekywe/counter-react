@@ -67,9 +67,9 @@ const Counter = () => {
   }
 
   return (
-    <div className="flex justify-center items-center p-4 min-h-screen">
+    <div className="flex justify-center bg-gray-800 items-center p-4 min-h-screen">
       <div className="flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mt-4 mb-8">Counter App</h1>
+        <h1 className="text-2xl text-white font-bold mt-4 mb-8">Counter App</h1>
         {isComplete && (
           <div className="bg-green-200 text-green-800 p-4 my-3 rounded">
             Completed! <button onClick={handleHardReset}>Start new</button>
@@ -82,7 +82,7 @@ const Counter = () => {
           >
             -
           </button>
-          <span className="mx-6 text-xl font-bold">{count}</span>
+          <span className="mx-6 text-xl text-white font-bold">{count}</span>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-8 rounded"
             onClick={handleIncrement}
