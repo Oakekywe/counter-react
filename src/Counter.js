@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import buttonClickSound from "./sound/button-click.mp3";
 import completionSound from "./sound/completion-sound.mp3";
 import { FaPlay, FaStop } from "react-icons/fa";
+import "./Counter.css";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
@@ -11,7 +12,7 @@ const Counter = () => {
   const completionAudioRef = useRef(null);
 
   const [isPlay, setIsPlay] = useState(false);
-  const [intervalDuration, setIntervalDuration] = useState(400);
+  const [intervalDuration, setIntervalDuration] = useState(0);
 
   const handleIncrement = () => {
     if (count < targetCount || targetCount === 0) {
@@ -80,12 +81,16 @@ const Counter = () => {
   useEffect(() => {
     let intervalId;
     if (isPlay) {
-      intervalId = setInterval(handleIncrement, intervalDuration); // Run handleIncrement every 0.5 seconds
+      intervalId = setInterval(handleIncrement, intervalDuration * 1000); // Run handleIncrement every 0.5 seconds
     } else if (!isPlay && intervalId) {
       clearInterval(intervalId);
     }
     return () => clearInterval(intervalId); // Cleanup interval on component unmount or when isPlay changes
   }, [isPlay]);
+
+  const handleRangeChange = (e) => {
+    setIntervalDuration(parseFloat(e.target.value));
+  };
 
   return (
     <div className="flex justify-center bg-gray-800 items-center p-4 min-h-screen">
@@ -132,62 +137,35 @@ const Counter = () => {
 
           <div className="my-6">
             <div className="my-6">
-              <button
-                className={`${
-                  intervalDuration === 400
-                    ? "bg-gray-700"
-                    : "bg-gray-500 hover:bg-gray-700"
-                } text-white py-2 px-4 rounded mr-1`}
-                disabled={isPlay}
-                onClick={() => setIntervalDuration(400)}
-              >
-                0.4 sec
-              </button>
-              <button
-                className={`${
-                  intervalDuration === 600
-                    ? "bg-gray-700"
-                    : "bg-gray-500 hover:bg-gray-700"
-                } text-white py-2 px-4 rounded mx-1`}
-                disabled={isPlay}
-                onClick={() => setIntervalDuration(600)}
-              >
-                0.6 sec
-              </button>
-              <button
-                className={`${
-                  intervalDuration === 1000
-                    ? "bg-gray-700"
-                    : "bg-gray-500 hover:bg-gray-700"
-                } text-white py-2 px-4 rounded ml-1`}
-                disabled={isPlay}
-                onClick={() => setIntervalDuration(1000)}
-              >
-                1 sec
-              </button>
-            </div>
-            <div className="my-6 flex justify-between items-center">
-              <button
-                className={`${
-                  intervalDuration === 1500
-                    ? "bg-gray-700"
-                    : "bg-gray-500 hover:bg-gray-700"
-                } text-white py-2 px-4 rounded mr-1`}
-                disabled={isPlay}
-                onClick={() => setIntervalDuration(1500)}
-              >
-                1.5 sec
-              </button>
-              <button
-                className={`${
-                  !isPlay
-                    ? "bg-blue-500 hover:bg-blue-700"
-                    : "bg-red-500 hover:bg-red-700"
-                } text-white py-4 px-5 rounded`}
-                onClick={onPressPlay}
-              >
-                {!isPlay ? <FaPlay /> : <FaStop />}
-              </button>
+              <div className="flex flex-col items-center justify-center mb-4">
+                <div className=" w-full">
+                  <input
+                    type="range"
+                    min="0"
+                    max="2"
+                    step="0.1"
+                    value={intervalDuration}
+                    onChange={handleRangeChange}
+                    className="slider"
+                    disabled={isPlay}
+                  />
+                </div>
+                <div className="flex justify-between w-full mt-5">
+                  <span className="ml-4 my-4 text-white font-bold">
+                    {intervalDuration.toFixed(1)} sec
+                  </span>
+                  <button
+                    className={`${
+                      !isPlay
+                        ? "bg-blue-500 hover:bg-blue-700"
+                        : "bg-red-500 hover:bg-red-700"
+                    } text-white py-3 px-5 rounded`}
+                    onClick={onPressPlay}
+                  >
+                    {!isPlay ? <FaPlay /> : <FaStop />}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
